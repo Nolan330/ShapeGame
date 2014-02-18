@@ -9,54 +9,78 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 public class MainCharacter extends Sprite {
-	//privateInputStream io = Main.class.getClassLoader().getResourceAsStream("main-walk.png");
-	private final Image sprite = new Image(getClass().getResourceAsStream("/main-stationary.png"));
-	private final Image walking = new Image(getClass().getResourceAsStream("/main-animation.png"));
+	private ImageView walk = new ImageView(new Image(getClass()
+			.getResourceAsStream("/main-animation.png")));
 	private Animation animation;
-	
-	private Node walkNode;
-	private Node standNode;
-	
-	public MainCharacter() {
-		final ImageView iv = new ImageView(sprite);
-		final ImageView walk = new ImageView(walking);
+
+	private final int SPRITE_WIDTH = 100;
+	private final int SPRITE_HEIGHT = 100;
+
+	public MainCharacter(Node n, int x, int y) {
+		super(n, x, y);
 		walk.setViewport(new Rectangle2D(0, 0, 100, 100));
-		
-		animation  = new SpriteAnimation(walk, Duration.millis(750), 8, 1, 0, 0, 100, 100);
-		animation.setCycleCount(5);
-		//animation.play();
-		animation.setOnFinished(new EventHandler<ActionEvent> () {
-			@Override
-			public void handle(ActionEvent e) {
-				
-				System.out.println("HANDLE");
-				walk.setViewport(new Rectangle2D(0, 800, 100, 100));
-				//node.setVisible(false);
-			}
-		});
-		//node.set
+		walk.setTranslateY(y);
+		walk.setTranslateX(x);
+		walk.setRotationAxis(Rotate.Y_AXIS);
+
+		animation = new SpriteAnimation(walk, Duration.millis(500), 8, 1, 0, 0,
+				SPRITE_WIDTH, SPRITE_HEIGHT);
+		animation.setCycleCount(1);
 		node = walk;
 	}
 
 	@Override
-	public void update(GameEvent ge) {
-		if(ge == GameEvent.RIGHT)
+	public void update(GameEngine ge) {
+		// super.update(ge);
+		GameEvent last = ge.getController().getLastEvent() == null ? GameEvent.NONE
+				: ge.getController().getLastEvent();
+		switch (last) {
+		case RIGHT:
 			animation.play();
-		//node.setTranslateX(node.getTranslateX() + 2);
+			// TODO: make generic method for moving sprite
+			node.setTranslateX(trueX);
+			ge.getStageCamera().augmentX(4);
+			// ge.getStageCamera().augmentY();
+			walk.setRotate(0);
+			break;
+		case LEFT:
+			walk.setRotate(180);
+			animation.play();
+			ge.getStageCamera().augmentX(-4);
+			node.setTranslateX(trueX);
+			break;
+		case UP:
+			setJumping();
+			break;
+		case DOWN:
+			node.setVisible(false);
+			break;
+		case NONE:
+			animation.stop();
+			setStanding();
+			break;
+		default:
+			break;
+		}
 	}
 
-	@Override
+	public void setStanding() {
+		walk.setViewport(new Rectangle2D(0, 800, 100, 100));
+	}
+
+	public void setJumping() {
+		walk.setViewport(new Rectangle2D(0, 0, 100, 100));
+	}
+
 	public String getType() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
 	public boolean collision(Sprite other) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

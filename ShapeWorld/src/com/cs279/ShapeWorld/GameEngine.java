@@ -11,14 +11,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import com.cs279.ShapeWorld.Controller.GameEvent;
-
 public abstract class GameEngine {
 	private Scene gameSurface;
 	private Group sceneNodes;
 	private static Timeline gameLoop;
+	private StageCamera camera;
 	
 	private final int framesPerSecond;
+	public final static int WIDTH = 640;
+	public final static int HEIGHT = 580;
 	
 	private final String windowTitle;
 	protected final SpriteManager spriteManager = new SpriteManager();
@@ -28,7 +29,7 @@ public abstract class GameEngine {
 	public GameEngine(final int fps, final String title) {
 		framesPerSecond = fps;
 		windowTitle = title;
-		
+		camera = new StageCamera(0, 0, WIDTH, HEIGHT);
 		buildGameLoop();
 	}
 	
@@ -40,7 +41,7 @@ public abstract class GameEngine {
 				new EventHandler() {
 					@Override
 					public void handle(Event event) {
-						GameEvent ge = controller.getLastEvent();
+						//drawScene();
 						updateSprites();
 						//checkCollisions();
 					}
@@ -69,14 +70,21 @@ public abstract class GameEngine {
 	
 	protected void updateSprites() {
 		for(Sprite sprite : spriteManager.getAllSprites()) {
-			sprite.update(controller.getLastEvent());
+			sprite.update(this);
 		}
+	}
+	
+	public StageCamera getStageCamera() {
+		return camera;
+	}
+	
+	public Controller getController() {
+		return controller;
 	}
 	
 	public void setController(Controller c) {
 		controller = c;
 	}
-	
 
 	public static Timeline getGameLoop() {
 		return gameLoop;

@@ -16,11 +16,11 @@ public class KeyboardController extends Controller {
 		keyMap.put(KeyCode.RIGHT, GameEvent.RIGHT);
 		keyMap.put(KeyCode.LEFT, GameEvent.LEFT);
 		keyMap.put(KeyCode.UP, GameEvent.UP);
+		keyMap.put(KeyCode.DOWN, GameEvent.DOWN);
 		initEventHandler();
 	}
 	
 	private void initEventHandler() {
-		System.out.println("HERE");
 		gameSurface.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
 			@Override
