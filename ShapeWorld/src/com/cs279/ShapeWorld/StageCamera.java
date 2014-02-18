@@ -15,14 +15,14 @@ public class StageCamera {
 	}
 	
 	public boolean isVisible(Sprite n) {
-		return checkXCoordinate(n.getXCoord()) && checkYCoordinate(n.getYCoord());
+		return checkXCoordinate(n.getXCoord(), n.getWidth()) && checkYCoordinate(n.getYCoord(), n.getHeight());
 	}
 	
-	public boolean checkXCoordinate(double coord) {
-		return x < coord && (width + x) > coord;
+	public boolean checkXCoordinate(double coord, double spriteWidth) {
+		return x < (coord + spriteWidth) && (width + x) > coord;
 	}
 	
-	public boolean checkYCoordinate(double coord) {
+	public boolean checkYCoordinate(double coord, double spriteHeight) {
 		return y < coord && (y + height) > coord;
 	}
 	

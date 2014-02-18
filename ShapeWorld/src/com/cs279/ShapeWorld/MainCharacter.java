@@ -1,36 +1,30 @@
 package com.cs279.ShapeWorld;
 
-import com.cs279.ShapeWorld.Controller.GameEvent;
-
 import javafx.animation.Animation;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
+import com.cs279.ShapeWorld.Controller.GameEvent;
+
 public class MainCharacter extends Sprite {
-	private ImageView walk = new ImageView(new Image(getClass()
-			.getResourceAsStream("/main-animation.png")));
 	private Animation animation;
 
 	private final int SPRITE_WIDTH = 100;
 	private final int SPRITE_HEIGHT = 100;
 
-	public MainCharacter(Node n, int x, int y) {
+	public MainCharacter(ImageView n, int x, int y) {
 		super(n, x, y);
-		walk.setViewport(new Rectangle2D(0, 0, 100, 100));
-		walk.setTranslateY(y);
-		walk.setTranslateX(x);
-		walk.setRotationAxis(Rotate.Y_AXIS);
+		
+		node.setViewport(new Rectangle2D(0, 0, 100, 100));
+		node.setTranslateY(y);
+		node.setTranslateX(x);
+		node.setRotationAxis(Rotate.Y_AXIS);
 
-		animation = new SpriteAnimation(walk, Duration.millis(500), 8, 1, 0, 0,
+		animation = new SpriteAnimation(node, Duration.millis(500), 8, 1, 0, 0,
 				SPRITE_WIDTH, SPRITE_HEIGHT);
 		animation.setCycleCount(1);
-		node = walk;
 	}
 
 	@Override
@@ -45,10 +39,10 @@ public class MainCharacter extends Sprite {
 			node.setTranslateX(trueX);
 			ge.getStageCamera().augmentX(4);
 			// ge.getStageCamera().augmentY();
-			walk.setRotate(0);
+			node.setRotate(0);
 			break;
 		case LEFT:
-			walk.setRotate(180);
+			node.setRotate(180);
 			animation.play();
 			ge.getStageCamera().augmentX(-4);
 			node.setTranslateX(trueX);
@@ -69,11 +63,11 @@ public class MainCharacter extends Sprite {
 	}
 
 	public void setStanding() {
-		walk.setViewport(new Rectangle2D(0, 800, 100, 100));
+		node.setViewport(new Rectangle2D(0, 800, 100, 100));
 	}
 
 	public void setJumping() {
-		walk.setViewport(new Rectangle2D(0, 0, 100, 100));
+		node.setViewport(new Rectangle2D(0, 0, 100, 100));
 	}
 
 	public String getType() {

@@ -3,6 +3,7 @@ package com.cs279.ShapeWorld;
 
 
 import javafx.animation.Timeline;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -42,12 +43,16 @@ public class ShapeEngine extends GameEngine {
 		}
 		tp.setTranslateY(HEIGHT - 200);
 		
-		MainCharacter mc = new MainCharacter(null, 200, 280);
+		
+		ImageView walk = new ImageView(new Image(getClass()
+				.getResourceAsStream("/main-animation.png")));
+		MainCharacter mc = new MainCharacter(walk, 200, 280);
 		spriteManager.addSprite(mc);
 		
 		for(int i=0; i < 10; i++) {
 			ImageView cloud = new ImageView(new Image(getClass()
 					.getResourceAsStream("/cloud.png")));
+			//cloud.setViewport(new Rectangle2D(50, 0, 150, 200));
 			int y = 0 + (int)(Math.random() * ((150 - 0) + 1));
 			spriteManager.addSprite(new Sprite(cloud, i * 270, y));
 			getSceneNodes().getChildren().add(0, cloud);
