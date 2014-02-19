@@ -2,6 +2,12 @@ package com.cs279.ShapeWorld;
 
 
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+
 import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -12,7 +18,31 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
 public class ShapeEngine extends GameEngine {
-
+	
+	private static final Map<Integer, String> TILE_MAP;
+    static {
+        Map<Integer, String> tileMap = new HashMap<Integer, String>();
+        tileMap.put(0, "/gray_tile_full.png");
+        tileMap.put(1, "/black_tile_full.png");
+        tileMap.put(2, "/red_line.png");
+        tileMap.put(3, "/blue_tile_basic.png");
+        tileMap.put(4, "/light_green_tile_full.png");
+        tileMap.put(5, "/light_green_tile_basic.png");
+        TILE_MAP = Collections.unmodifiableMap(tileMap);
+    }
+    private static final Map<Integer, String> CLOUD_MAP;
+    static {
+    	 Map<Integer, String> cloudMap = new HashMap<Integer, String>();
+         cloudMap.put(0, "/cloud_0_small.png");
+         cloudMap.put(1, "/cloud_1_small.png");
+         cloudMap.put(2, "/cloud_2_small.png");
+         cloudMap.put(3, "/clouds_0_small.png");
+         cloudMap.put(4, "/clouds_1_small.png");
+         cloudMap.put(5, "/clouds_r2_small.png");
+         CLOUD_MAP = Collections.unmodifiableMap(cloudMap);
+    }
+    
+    private Random sceneGenerator = new Random();
 
 	public ShapeEngine(int fps, String title) {
 		super(fps, title);
@@ -34,14 +64,25 @@ public class ShapeEngine extends GameEngine {
 		setController(new KeyboardController(getGameSurface()));
 		
 		final Timeline gameLoop = getGameLoop();
-		TilePane tp = new TilePane();
-		tp.setHgap(0);
-		int cols = (int) Math.ceil(WIDTH/100.0);
-		tp.setPrefColumns(cols);
-		for(int i=0; i < cols; i++) {
-			tp.getChildren().add(0, new ImageView(new Image(getClass().getResourceAsStream("/grass-tile.jpg"))));
+		
+		ArrayList<TilePane> tilePanes = new ArrayList<TilePane>();
+		
+		//this should be smarter about drawing in with HEIGHT...to tired to do it now
+		for(int rows = 0; rows < 4; rows++) {
+			TilePane tp = new TilePane();
+			tp.setHgap(0);
+			int cols = (int) Math.ceil(WIDTH/50.0);
+			tp.setPrefColumns(cols);
+			for(int i=0; i < cols; i++) {
+				ImageView nextTile = new ImageView(
+						new Image(getClass().getResourceAsStream(TILE_MAP.get(sceneGenerator.nextInt(6)))));
+				nextTile.setFitWidth(50);
+				nextTile.setFitHeight(50);
+				tp.getChildren().add(0, nextTile);
+			}
+			tp.setTranslateY(HEIGHT - 200 + rows*50);
+			tilePanes.add(tp);
 		}
-		tp.setTranslateY(HEIGHT - 200);
 		
 		
 		ImageView walk = new ImageView(new Image(getClass()
@@ -49,9 +90,9 @@ public class ShapeEngine extends GameEngine {
 		MainCharacter mc = new MainCharacter(walk, 200, 280);
 		spriteManager.addSprite(mc);
 		
-		for(int i=0; i < 10; i++) {
+		for(int i=0; i < 25; i++) {
 			ImageView cloud = new ImageView(new Image(getClass()
-					.getResourceAsStream("/cloud.png")));
+					.getResourceAsStream(CLOUD_MAP.get(sceneGenerator.nextInt(6)))));
 			//cloud.setViewport(new Rectangle2D(50, 0, 150, 200));
 			int y = 0 + (int)(Math.random() * ((150 - 0) + 1));
 			spriteManager.addSprite(new Sprite(cloud, i * 270, y));
@@ -59,7 +100,10 @@ public class ShapeEngine extends GameEngine {
 		}
 
 		getSceneNodes().getChildren().add(0, mc.getNode());
-		getSceneNodes().getChildren().add(0, tp);
+		
+		for(TilePane tp : tilePanes) {
+			getSceneNodes().getChildren().add(0, tp);
+		}
 	}
 	
 
