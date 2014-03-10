@@ -46,7 +46,7 @@ public class ShapeEngine extends GameEngine {
 
 	public ShapeEngine(int fps, String title) {
 		super(fps, title);
-		// TODO Auto-generated constructor stub
+		level.setGameEngine(this);
 	}
 
 	
@@ -85,24 +85,21 @@ public class ShapeEngine extends GameEngine {
 		}
 		
 		
-		ImageView walk = new ImageView(new Image(getClass()
-				.getResourceAsStream("/main-animation.png")));
-		MainCharacter mc = new MainCharacter(walk, 200, 280);
-		spriteManager.addSprite(mc);
+		MainCharacter mc = new MainCharacter("/main-animation.png", 200, 280);
+		level.addSprite(mc);
 		
 		for(int i=0; i < 25; i++) {
-			ImageView cloud = new ImageView(new Image(getClass()
-					.getResourceAsStream(CLOUD_MAP.get(sceneGenerator.nextInt(6)))));
+			//ImageView cloud = new ImageView(new Image(getClass()
+			//		.getResourceAsStream())));
 			//cloud.setViewport(new Rectangle2D(50, 0, 150, 200));
 			int y = 0 + (int)(Math.random() * ((150 - 0) + 1));
-			spriteManager.addSprite(new Sprite(cloud, i * 270, y));
-			getSceneNodes().getChildren().add(0, cloud);
+			level.addSprite(new Sprite(CLOUD_MAP.get(sceneGenerator.nextInt(6)), i * 270, y));
+			//getSceneNodes().getChildren().add(0, cloud);
 		}
 
-		getSceneNodes().getChildren().add(0, mc.getNode());
-		
 		for(TilePane tp : tilePanes) {
-			getSceneNodes().getChildren().add(0, tp);
+			//getSceneNodes().getChildren().add(0, tp);
+			//level.addSprite();
 		}
 	}
 	

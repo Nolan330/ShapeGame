@@ -14,8 +14,8 @@ public class MainCharacter extends Sprite {
 	private final int SPRITE_WIDTH = 100;
 	private final int SPRITE_HEIGHT = 100;
 
-	public MainCharacter(ImageView n, int x, int y) {
-		super(n, x, y);
+	public MainCharacter(String imageLocation, int x, int y) {
+		super(imageLocation, x, y);
 		
 		node.setViewport(new Rectangle2D(0, 0, 100, 100));
 		node.setTranslateY(y);

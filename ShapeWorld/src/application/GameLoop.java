@@ -18,7 +18,6 @@ public class GameLoop extends Application {
 		gEngine.initialize(primaryStage);
 		gEngine.beginGameLoop();
 		primaryStage.show();
-
 	}
 
 }

@@ -2,6 +2,7 @@ package com.cs279.ShapeWorld;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Sprite {
@@ -10,11 +11,13 @@ public class Sprite {
 	protected int trueY;
 	private Rectangle2D viewport;
 
-	public Sprite(ImageView n, int x, int y) {
-		node = n;
+	public Sprite(String imageLocation, int x, int y) {
+		node = new ImageView(new Image(getClass().getResourceAsStream(
+				imageLocation)));
 		trueX = x;
 		trueY = y;
-		viewport = new Rectangle2D(0, 0, n.getImage().getWidth(), n.getImage().getHeight());
+		viewport = new Rectangle2D(0, 0, node.getImage().getWidth(), node.getImage()
+				.getHeight());
 	}
 
 	public void update(GameEngine ge) {
@@ -25,7 +28,7 @@ public class Sprite {
 			double visY = sc.getVisibleY(trueY);
 			node.setVisible(true);
 			if (visX < 0) {
-				if(visX < node.getImage().getWidth()) {
+				if (visX < node.getImage().getWidth()) {
 					node.setViewport(new Rectangle2D(-visX, node.getViewport()
 							.getMinY(), node.getImage().getWidth() + visX, node
 							.getViewport().getHeight()));
@@ -35,7 +38,7 @@ public class Sprite {
 				node.setViewport(viewport);
 				node.setTranslateX(visX);
 			}
-			
+
 			node.setTranslateY(visY);
 		} else {
 			node.setVisible(false);
@@ -61,11 +64,11 @@ public class Sprite {
 	public void setYCoord(double y) {
 		node.setTranslateY(y);
 	}
-	
+
 	public double getWidth() {
 		return node.getImage().getWidth();
 	}
-	
+
 	public double getHeight() {
 		return node.getImage().getWidth();
 	}

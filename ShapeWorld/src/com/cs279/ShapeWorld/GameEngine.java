@@ -22,7 +22,7 @@ public abstract class GameEngine {
 	public final static int HEIGHT = 580;
 	
 	private final String windowTitle;
-	protected final SpriteManager spriteManager = new SpriteManager();
+	protected Level level = new Level("Level 1");
 	
 	private Controller controller;
 
@@ -69,7 +69,7 @@ public abstract class GameEngine {
 	}
 	
 	protected void updateSprites() {
-		for(Sprite sprite : spriteManager.getAllSprites()) {
+		for(Sprite sprite : level.getAllSprites()) {
 			sprite.update(this);
 		}
 	}
@@ -118,7 +118,7 @@ public abstract class GameEngine {
 		return windowTitle;
 	}
 
-	public SpriteManager getSpriteManager() {
-		return spriteManager;
+	public Level getLevel() {
+		return level;
 	}
 }
