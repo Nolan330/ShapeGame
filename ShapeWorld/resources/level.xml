@@ -1,0 +1,22 @@
+<list>
+	<maincharacter>
+		<trueX>200</trueX>
+		<trueY>280</trueY>
+		<imageLocation>/main-animation.png</imageLocation>
+	</maincharacter>
+	<sprite>
+		<trueX>0</trueX>
+		<trueY>33</trueY>
+		<imageLocation>/cloud_0_small.png</imageLocation>
+	</sprite>
+	<sprite>
+		<trueX>100</trueX>
+		<trueY>33</trueY>
+		<imageLocation>/cloud_1_small.png</imageLocation>
+	</sprite>
+	<sprite>
+		<trueX>200</trueX>
+		<trueY>33</trueY>
+		<imageLocation>/cloud_2_small.png</imageLocation>
+	</sprite>
+</list>

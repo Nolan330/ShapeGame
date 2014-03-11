@@ -1,23 +1,33 @@
 package com.cs279.ShapeWorld;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class Sprite {
-	protected ImageView node;
+	
+	protected transient ImageView node;
+	
+	private String imageLocation; 
 	protected int trueX;
 	protected int trueY;
-	private Rectangle2D viewport;
+	//Keep viewport. May start using it again and simplify serialization process. 
+	//private Rectangle2D viewport;
 
 	public Sprite(String imageLocation, int x, int y) {
-		node = new ImageView(new Image(getClass().getResourceAsStream(
-				imageLocation)));
 		trueX = x;
 		trueY = y;
-		viewport = new Rectangle2D(0, 0, node.getImage().getWidth(), node.getImage()
-				.getHeight());
+	}
+	
+	private Object readResolve() {
+		initialize();
+		return this;
 	}
 
 	public void update(GameEngine ge) {
@@ -35,7 +45,8 @@ public class Sprite {
 					node.setTranslateX(0);
 				}
 			} else {
-				node.setViewport(viewport);
+				node.setViewport(new Rectangle2D(0, 0, node.getImage().getWidth(), node.getImage()
+						.getHeight()));
 				node.setTranslateX(visX);
 			}
 
@@ -45,6 +56,18 @@ public class Sprite {
 		}
 	}
 
+	/*
+	 * Used in serialization process to create the node object. 
+	 */
+	protected void initialize() {
+		node = new ImageView(new Image(getClass().getResourceAsStream(
+				imageLocation)));
+	}
+	
+	public String toString() {
+		return "imageLocation: " + imageLocation + "\ntrueX: " + trueX + "\ntrueY: " + trueY;
+	}
+	
 	public Node getNode() {
 		return node;
 	}

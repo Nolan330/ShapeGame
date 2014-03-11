@@ -7,19 +7,31 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 import com.cs279.ShapeWorld.Controller.GameEvent;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class MainCharacter extends Sprite {
-	private Animation animation;
+	@XStreamOmitField private Animation animation;
 
-	private final int SPRITE_WIDTH = 100;
-	private final int SPRITE_HEIGHT = 100;
+	@XStreamOmitField private final int SPRITE_WIDTH = 100;
+	@XStreamOmitField private final int SPRITE_HEIGHT = 100;
+	
 
 	public MainCharacter(String imageLocation, int x, int y) {
 		super(imageLocation, x, y);
 		
 		node.setViewport(new Rectangle2D(0, 0, 100, 100));
-		node.setTranslateY(y);
-		node.setTranslateX(x);
+		
+	}
+	
+	private Object readResolve() {
+		initialize();
+		return this;
+	}
+	
+	protected void initialize() {
+		super.initialize();
+		node.setTranslateY(trueY);
+		node.setTranslateX(trueX);
 		node.setRotationAxis(Rotate.Y_AXIS);
 
 		animation = new SpriteAnimation(node, Duration.millis(500), 8, 1, 0, 0,
@@ -29,7 +41,6 @@ public class MainCharacter extends Sprite {
 
 	@Override
 	public void update(GameEngine ge) {
-		// super.update(ge);
 		GameEvent last = ge.getController().getLastEvent() == null ? GameEvent.NONE
 				: ge.getController().getLastEvent();
 		switch (last) {

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import com.thoughtworks.xstream.XStream;
+
 import javafx.animation.Timeline;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -64,7 +66,7 @@ public class ShapeEngine extends GameEngine {
 		setController(new KeyboardController(getGameSurface()));
 		
 		final Timeline gameLoop = getGameLoop();
-		
+		/*
 		ArrayList<TilePane> tilePanes = new ArrayList<TilePane>();
 		
 		//this should be smarter about drawing in with HEIGHT...to tired to do it now
@@ -100,8 +102,10 @@ public class ShapeEngine extends GameEngine {
 		for(TilePane tp : tilePanes) {
 			//getSceneNodes().getChildren().add(0, tp);
 			//level.addSprite();
-		}
+		}*/
+		level.loadFromXml("/level.xml");
 	}
+	
 	
 
 }
