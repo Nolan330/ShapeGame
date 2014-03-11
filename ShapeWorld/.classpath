@@ -4,5 +4,8 @@
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
 	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="lib" path="/Users/patrickmcgannon/Downloads/Chrome/xstream-1.4.7/lib/xstream-1.4.7.jar"/>
+	<classpathentry kind="lib" path="/Users/patrickmcgannon/Downloads/Chrome/xstream-1.4.7/lib/xstream/xmlpull-1.1.3.1.jar"/>
+	<classpathentry kind="lib" path="/Users/patrickmcgannon/Downloads/Chrome/xstream-1.4.7/lib/xstream/xpp3_min-1.1.4c.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

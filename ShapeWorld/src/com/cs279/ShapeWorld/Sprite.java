@@ -1,25 +1,19 @@
 package com.cs279.ShapeWorld;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import com.thoughtworks.xstream.annotations.XStreamOmitField;
-
 public class Sprite {
 	
 	protected transient ImageView node;
 	
-	private String imageLocation; 
+	protected String imageLocation; 
 	protected int trueX;
 	protected int trueY;
 	//Keep viewport. May start using it again and simplify serialization process. 
 	//private Rectangle2D viewport;
-
 	public Sprite(String imageLocation, int x, int y) {
 		trueX = x;
 		trueY = y;
@@ -32,7 +26,6 @@ public class Sprite {
 
 	public void update(GameEngine ge) {
 		StageCamera sc = ge.getStageCamera();
-		// System.out.println("trueX: " + trueX);
 		if (sc.isVisible(this)) {
 			double visX = sc.getVisibleX(trueX);
 			double visY = sc.getVisibleY(trueY);

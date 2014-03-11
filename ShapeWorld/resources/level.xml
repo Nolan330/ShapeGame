@@ -19,4 +19,16 @@
 		<trueY>33</trueY>
 		<imageLocation>/cloud_2_small.png</imageLocation>
 	</sprite>
+	<ground>
+		<trueX>0</trueX>
+		<trueEndX>800</trueEndX>
+		<trueY>300</trueY>
+		<imageLocation>/dark.png</imageLocation>
+	</ground>
+	<ground>
+		<trueX>800</trueX>
+		<trueEndX>1600</trueEndX>
+		<trueY>300</trueY>
+		<imageLocation>/green.png</imageLocation>
+	</ground>
 </list>

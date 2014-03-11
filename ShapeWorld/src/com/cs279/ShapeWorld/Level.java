@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
+
 import com.thoughtworks.xstream.XStream;
 
 public class Level {
@@ -13,6 +16,8 @@ public class Level {
 	private String levelName;
 	private GameEngine gameEngine;
 	private XStream lvlReader;
+	
+	private transient Text debugTxt;
 	
 	public Level(String name) {
 		levelName = name;
@@ -50,12 +55,24 @@ public class Level {
 		for (Sprite s : sprites) {
 			gameEngine.getSceneNodes().getChildren().add(s.getNode());
 		}
+		debugTxt = new Text();
+		debugTxt.setWrappingWidth(200);
+		debugTxt.setTextAlignment(TextAlignment.JUSTIFY);
+		debugTxt.setText(levelName);
+		debugTxt.setTranslateX(GameEngine.WIDTH - 225);
+		debugTxt.setTranslateY(25);
+		gameEngine.getSceneNodes().getChildren().add(debugTxt);
 	}
 	
 	private void createSerializer() {
 		lvlReader = new XStream();
 		lvlReader.alias("sprite",com.cs279.ShapeWorld.Sprite.class);
 		lvlReader.alias("maincharacter",com.cs279.ShapeWorld.MainCharacter.class);
+		lvlReader.alias("ground", com.cs279.ShapeWorld.LevelGround.class);
+	}
+	
+	public void setDebugText(String txt) {
+		debugTxt.setText(txt);
 	}
 
 }
