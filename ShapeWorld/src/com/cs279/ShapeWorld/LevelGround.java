@@ -78,5 +78,9 @@ public class LevelGround extends Sprite {
 	public double getHeight() {
 		return 0;
 	}
+	
+	public boolean collision(Sprite other) {
+		return false;
+	}
 
 }

@@ -10,24 +10,45 @@
 		<imageLocation>/cloud_0_small.png</imageLocation>
 	</sprite>
 	<sprite>
-		<trueX>100</trueX>
-		<trueY>33</trueY>
+		<trueX>150</trueX>
+		<trueY>60</trueY>
 		<imageLocation>/cloud_1_small.png</imageLocation>
 	</sprite>
 	<sprite>
-		<trueX>200</trueX>
-		<trueY>33</trueY>
+		<trueX>245</trueX>
+		<trueY>30</trueY>
 		<imageLocation>/cloud_2_small.png</imageLocation>
+	</sprite>
+	<sprite>
+		<trueX>360</trueX>
+		<trueY>45</trueY>
+		<imageLocation>/clouds_0_small.png</imageLocation>
+	</sprite>
+	<sprite>
+		<trueX>465</trueX>
+		<trueY>25</trueY>
+		<imageLocation>/clouds_1_small.png</imageLocation>
+	</sprite>
+	<sprite>
+		<trueX>580</trueX>
+		<trueY>280</trueY>
+		<imageLocation>/clouds_2_small.png</imageLocation>
 	</sprite>
 	<ground>
 		<trueX>0</trueX>
-		<trueEndX>800</trueEndX>
+		<trueEndX>700</trueEndX>
 		<trueY>300</trueY>
 		<imageLocation>/dark.png</imageLocation>
 	</ground>
 	<ground>
-		<trueX>800</trueX>
-		<trueEndX>1600</trueEndX>
+		<trueX>700</trueX>
+		<trueEndX>1400</trueEndX>
+		<trueY>300</trueY>
+		<imageLocation>/yellow.png</imageLocation>
+	</ground>
+	<ground>
+		<trueX>1400</trueX>
+		<trueEndX>2100</trueEndX>
 		<trueY>300</trueY>
 		<imageLocation>/green.png</imageLocation>
 	</ground>

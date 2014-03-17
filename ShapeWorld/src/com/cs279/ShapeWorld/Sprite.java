@@ -5,15 +5,16 @@ import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 public class Sprite {
 	
-	protected transient ImageView node;
+	@XStreamOmitField protected ImageView node;
 	
 	protected String imageLocation; 
 	protected int trueX;
 	protected int trueY;
-	//Keep viewport. May start using it again and simplify serialization process. 
-	//private Rectangle2D viewport;
+
 	public Sprite(String imageLocation, int x, int y) {
 		trueX = x;
 		trueY = y;
@@ -47,6 +48,10 @@ public class Sprite {
 		} else {
 			node.setVisible(false);
 		}
+	}
+	
+	public boolean collision(Sprite other) {
+		return !this.equals(other) && node.getBoundsInParent().intersects(other.getNode().getBoundsInParent());
 	}
 
 	/*

@@ -47,9 +47,18 @@ public class MainCharacter extends Sprite {
 		case RIGHT:
 			animation.play();
 			// TODO: make generic method for moving sprite
-			node.setTranslateX(trueX);
-			ge.getStageCamera().augmentX(4);
-			// ge.getStageCamera().augmentY();
+			boolean collision = false;
+			for(Sprite s:ge.getLevel().getAllSprites()) {
+				if(s.collision(this)) { 
+					collision = true;
+					break;
+				}
+			}
+			if(!collision) {
+				node.setTranslateX(trueX);
+				ge.getStageCamera().augmentX(4);
+			}
+			
 			node.setRotate(0);
 			break;
 		case LEFT:
@@ -62,7 +71,6 @@ public class MainCharacter extends Sprite {
 			setJumping();
 			break;
 		case DOWN:
-			node.setVisible(false);
 			break;
 		case NONE:
 			animation.stop();
@@ -83,10 +91,6 @@ public class MainCharacter extends Sprite {
 
 	public String getType() {
 		return null;
-	}
-
-	public boolean collision(Sprite other) {
-		return false;
 	}
 
 }
