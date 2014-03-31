@@ -5,35 +5,35 @@
 		<imageLocation>/main-animation.png</imageLocation>
 	</maincharacter>
 	<sprite>
+		<trueX>10</trueX>
+		<trueY>280</trueY>
+		<imageLocation>/cloud_0_small.png</imageLocation>
+	</sprite>
+	<backgroundsprite>
 		<trueX>0</trueX>
 		<trueY>33</trueY>
 		<imageLocation>/cloud_0_small.png</imageLocation>
-	</sprite>
-	<sprite>
+	</backgroundsprite>
+	<backgroundsprite>
 		<trueX>150</trueX>
 		<trueY>60</trueY>
 		<imageLocation>/cloud_1_small.png</imageLocation>
-	</sprite>
-	<sprite>
+	</backgroundsprite>
+	<backgroundsprite>
 		<trueX>245</trueX>
 		<trueY>30</trueY>
 		<imageLocation>/cloud_2_small.png</imageLocation>
-	</sprite>
-	<sprite>
+	</backgroundsprite>
+	<backgroundsprite>
 		<trueX>360</trueX>
 		<trueY>45</trueY>
 		<imageLocation>/clouds_0_small.png</imageLocation>
-	</sprite>
-	<sprite>
+	</backgroundsprite>
+	<backgroundsprite>
 		<trueX>465</trueX>
 		<trueY>25</trueY>
 		<imageLocation>/clouds_1_small.png</imageLocation>
-	</sprite>
-	<sprite>
-		<trueX>580</trueX>
-		<trueY>280</trueY>
-		<imageLocation>/clouds_2_small.png</imageLocation>
-	</sprite>
+	</backgroundsprite>
 	<ground>
 		<trueX>0</trueX>
 		<trueEndX>700</trueEndX>

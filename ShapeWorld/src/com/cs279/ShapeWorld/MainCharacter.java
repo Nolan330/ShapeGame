@@ -10,24 +10,38 @@ import com.cs279.ShapeWorld.Controller.GameEvent;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class MainCharacter extends Sprite {
-	@XStreamOmitField private Animation animation;
+	public enum State {
+		STANDING, JUMPING_UP, JUMPING_DOWN, FALLING, WALKING
+	}
 
-	@XStreamOmitField private final int SPRITE_WIDTH = 100;
-	@XStreamOmitField private final int SPRITE_HEIGHT = 100;
+	@XStreamOmitField
+	private Animation animation;
 	
+	@XStreamOmitField
+	private GameEngine ge;
+
+	@XStreamOmitField
+	private final int SPRITE_WIDTH = 100;
+	@XStreamOmitField
+	private final int SPRITE_HEIGHT = 100;
+
+	@XStreamOmitField
+	private final int VELOCITY = 4;
+	@XStreamOmitField
+	private State state = State.WALKING;
 
 	public MainCharacter(String imageLocation, int x, int y) {
 		super(imageLocation, x, y);
-		
+
 		node.setViewport(new Rectangle2D(0, 0, 100, 100));
-		
+ 
 	}
-	
+
 	private Object readResolve() {
 		initialize();
 		return this;
 	}
-	
+
 	protected void initialize() {
 		super.initialize();
 		node.setTranslateY(trueY);
@@ -41,53 +55,107 @@ public class MainCharacter extends Sprite {
 
 	@Override
 	public void update(GameEngine ge) {
+		this.ge = ge; //REFACTOR
 		GameEvent last = ge.getController().getLastEvent() == null ? GameEvent.NONE
 				: ge.getController().getLastEvent();
-		switch (last) {
-		case RIGHT:
-			animation.play();
-			// TODO: make generic method for moving sprite
-			boolean collision = false;
-			for(Sprite s:ge.getLevel().getAllSprites()) {
-				if(s.collision(this)) { 
-					collision = true;
-					break;
+		if(!checkGround()) {
+			state = State.FALLING;
+		}
+		if (state == State.JUMPING_UP) {
+			trueY -= 4;
+			if ((280 - trueY) > 70) {
+				state = State.JUMPING_DOWN;
+			}
+			node.setTranslateY(trueY);
+			if(ge.getController().getLastActionEvent() != GameEvent.DOWN)
+				move(ge.getController().getLastActionEvent());
+			else
+				state = State.JUMPING_DOWN;
+		} else if (state == State.JUMPING_DOWN) {
+			trueY += 3;
+			if (trueY > 277) {
+				state = State.STANDING;
+				trueY = 280;
+			}
+			node.setTranslateY(trueY);
+			move(ge.getController().getLastActionEvent());
+		} else if(state == State.FALLING) {
+			trueY +=3;
+			node.setTranslateY(trueY);
+			move(ge.getController().getLastActionEvent());
+		} else {
+			switch (last) {
+			case RIGHT:
+				animation.play();
+				node.setRotate(0);
+				move(last);
+				break;
+			case LEFT:
+				node.setRotate(180);
+				animation.play();
+				move(last);
+				break;
+			case UP:
+				jump();
+				break;
+			case DOWN:
+				break;
+			case NONE:
+				animation.stop();
+				setStanding();
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	
+	public void move(GameEvent le) {
+			if(!collision(le)) {
+				if(le == GameEvent.RIGHT) {
+					trueX += VELOCITY;
+					ge.getStageCamera().augmentX(VELOCITY);
+				} else if(le == GameEvent.LEFT) {
+					trueX -= VELOCITY;
+					ge.getStageCamera().augmentX(-VELOCITY);
 				}
 			}
-			if(!collision) {
-				node.setTranslateX(trueX);
-				ge.getStageCamera().augmentX(4);
-			}
-			
-			node.setRotate(0);
-			break;
-		case LEFT:
-			node.setRotate(180);
-			animation.play();
-			ge.getStageCamera().augmentX(-4);
-			node.setTranslateX(trueX);
-			break;
-		case UP:
-			setJumping();
-			break;
-		case DOWN:
-			break;
-		case NONE:
-			animation.stop();
-			setStanding();
-			break;
-		default:
-			break;
-		}
+			node.setTranslateX(trueX - ge.getStageCamera().getX());
 	}
 
 	public void setStanding() {
 		node.setViewport(new Rectangle2D(0, 800, 100, 100));
 	}
-
-	public void setJumping() {
-		node.setViewport(new Rectangle2D(0, 0, 100, 100));
+	
+	public boolean collision(GameEvent le) {
+		for (Sprite s : ge.getLevel().getAllSprites()) {
+			if (s.collision(this)) {
+				if(s.getXCoord() - 5 > trueX && le == GameEvent.RIGHT)
+					return true;
+				else if(s.getXCoord() < trueX && le == GameEvent.LEFT)
+					return true;
+			}
+		}
+		return false;
 	}
+	
+	public boolean checkGround() {
+		for(Sprite s : ge.getLevel().getAllSprites()) {
+			if(s instanceof LevelGround) {
+				if(trueX < (((LevelGround)s).getEndX()+5) && trueX > (s.getXCoord()-5)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public void jump() {
+		animation.stop();
+		node.setViewport(new Rectangle2D(0, 0, 100, 100));
+		state = State.JUMPING_UP;
+	}
+
 
 	public String getType() {
 		return null;

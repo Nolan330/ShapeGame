@@ -93,6 +93,4 @@ public class Sprite {
 	public double getHeight() {
 		return node.getImage().getWidth();
 	}
-
-	// public abstract boolean collision(Sprite other);
 }

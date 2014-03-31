@@ -8,6 +8,7 @@ public class Controller {
 	}
 	
 	private GameEvent lastEvent;
+	private GameEvent lastActionEvent;
 	protected Scene gameSurface;
 	
 	public Controller(Scene s) {
@@ -17,9 +18,16 @@ public class Controller {
 	public GameEvent getLastEvent() {
 		return lastEvent;
 	}
+	
+	public GameEvent getLastActionEvent() {
+		return lastActionEvent;
+	}
 
 	protected void setLastEvent(GameEvent lastEvent) {
 		this.lastEvent = lastEvent;
+		if(lastEvent != GameEvent.NONE || lastEvent != GameEvent.UP) {
+			lastActionEvent = lastEvent;
+		}
 	}
 	
 }

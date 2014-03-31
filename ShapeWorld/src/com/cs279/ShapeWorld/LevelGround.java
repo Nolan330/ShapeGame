@@ -75,6 +75,10 @@ public class LevelGround extends Sprite {
 		return (trueEndX - trueX) < GameEngine.WIDTH ? trueEndX - trueX : GameEngine.WIDTH;
 	}
 	
+	public int getEndX() {
+		return trueEndX;
+	}
+	
 	public double getHeight() {
 		return 0;
 	}

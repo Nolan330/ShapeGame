@@ -67,6 +67,7 @@ public class Level {
 	private void createSerializer() {
 		lvlReader = new XStream();
 		lvlReader.alias("sprite",com.cs279.ShapeWorld.Sprite.class);
+		lvlReader.alias("backgroundsprite", com.cs279.ShapeWorld.BackgroundSprite.class);
 		lvlReader.alias("maincharacter",com.cs279.ShapeWorld.MainCharacter.class);
 		lvlReader.alias("ground", com.cs279.ShapeWorld.LevelGround.class);
 	}
