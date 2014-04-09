@@ -1,5 +1,7 @@
 package com.cs279.ShapeWorld;
 
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -7,7 +9,10 @@ import javafx.scene.layout.TilePane;
 
 public class LevelGround extends Sprite {
 	private int trueEndX;
-	private transient TilePane tp;
+	@XStreamOmitField
+	private TilePane tp;
+	@XStreamOmitField
+	static int GROUND_LEVEL;
 
 	public LevelGround(String imageLocation, int x, int y, int endX) {
 		super(imageLocation, x, y);
@@ -29,7 +34,8 @@ public class LevelGround extends Sprite {
 		tp.setPrefRows(1);
 		tp.setPrefColumns((int) (GameEngine.WIDTH/imgWidth));
 		tp.setMaxWidth(GameEngine.WIDTH);
-		tp.setTranslateY(GameEngine.HEIGHT - 200);
+		GROUND_LEVEL = GameEngine.HEIGHT - trueY;
+		tp.setTranslateY(GameEngine.HEIGHT - trueY + 100);
 		double x = trueX;
 
 		while (x < trueEndX) {
@@ -75,7 +81,7 @@ public class LevelGround extends Sprite {
 		return (trueEndX - trueX) < GameEngine.WIDTH ? trueEndX - trueX : GameEngine.WIDTH;
 	}
 	
-	public int getEndX() {
+	public double getEndX() {
 		return trueEndX;
 	}
 	
@@ -87,4 +93,7 @@ public class LevelGround extends Sprite {
 		return false;
 	}
 
+	public CollisionType getCollisionType() {
+		return CollisionType.GROUND;
+	}
 }

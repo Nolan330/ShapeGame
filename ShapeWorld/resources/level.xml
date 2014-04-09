@@ -1,12 +1,12 @@
 <list>
 	<maincharacter>
-		<trueX>200</trueX>
+		<trueX>250</trueX>
 		<trueY>280</trueY>
 		<imageLocation>/main-animation.png</imageLocation>
 	</maincharacter>
 	<sprite>
-		<trueX>10</trueX>
-		<trueY>280</trueY>
+		<trueX>50</trueX>
+		<trueY>320</trueY>
 		<imageLocation>/cloud_0_small.png</imageLocation>
 	</sprite>
 	<backgroundsprite>

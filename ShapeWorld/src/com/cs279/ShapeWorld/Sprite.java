@@ -9,6 +9,10 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class Sprite {
 	
+	public enum CollisionType {
+		SOLID, TRANSPARENT, GROUND
+	}
+	
 	@XStreamOmitField protected ImageView node;
 	
 	protected String imageLocation; 
@@ -77,6 +81,11 @@ public class Sprite {
 	public double getYCoord() {
 		return trueY;
 	}
+	
+	public double getEndX() {
+		return getXCoord() + getWidth();
+	}
+
 
 	public void setXCoord(double x) {
 		node.setTranslateX(x);
@@ -92,5 +101,9 @@ public class Sprite {
 
 	public double getHeight() {
 		return node.getImage().getWidth();
+	}
+	
+	public CollisionType getCollisionType () {
+		return CollisionType.SOLID;
 	}
 }

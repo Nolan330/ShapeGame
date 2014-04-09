@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class MainCharacter extends Sprite {
 	public enum State {
-		STANDING, JUMPING_UP, JUMPING_DOWN, FALLING, WALKING
+		STANDING, JUMPING_UP, JUMPING_DOWN, FALLING, WALKING, ONITEM
 	}
 
 	@XStreamOmitField
@@ -21,14 +21,14 @@ public class MainCharacter extends Sprite {
 	private GameEngine ge;
 
 	@XStreamOmitField
-	private final int SPRITE_WIDTH = 100;
+	private final int SPRITE_SIZE = 100;
 	@XStreamOmitField
-	private final int SPRITE_HEIGHT = 100;
-
-	@XStreamOmitField
-	private final int VELOCITY = 4;
+	private final int VELOCITY_X = 4;
+	@XStreamOmitField 
+	private final int VELOCITY_Y = 3;
 	@XStreamOmitField
 	private State state = State.WALKING;
+	
 
 	public MainCharacter(String imageLocation, int x, int y) {
 		super(imageLocation, x, y);
@@ -49,7 +49,7 @@ public class MainCharacter extends Sprite {
 		node.setRotationAxis(Rotate.Y_AXIS);
 
 		animation = new SpriteAnimation(node, Duration.millis(500), 8, 1, 0, 0,
-				SPRITE_WIDTH, SPRITE_HEIGHT);
+				SPRITE_SIZE, SPRITE_SIZE);
 		animation.setCycleCount(1);
 	}
 
@@ -62,8 +62,8 @@ public class MainCharacter extends Sprite {
 			state = State.FALLING;
 		}
 		if (state == State.JUMPING_UP) {
-			trueY -= 4;
-			if ((280 - trueY) > 70) {
+			trueY -= VELOCITY_X;
+			if ((LevelGround.GROUND_LEVEL - trueY) > 70) {
 				state = State.JUMPING_DOWN;
 			}
 			node.setTranslateY(trueY);
@@ -72,15 +72,15 @@ public class MainCharacter extends Sprite {
 			else
 				state = State.JUMPING_DOWN;
 		} else if (state == State.JUMPING_DOWN) {
-			trueY += 3;
-			if (trueY > 277) {
+			trueY += VELOCITY_Y;
+			if (trueY > LevelGround.GROUND_LEVEL - 3) {
 				state = State.STANDING;
-				trueY = 280;
+				trueY = LevelGround.GROUND_LEVEL;
 			}
 			node.setTranslateY(trueY);
 			move(ge.getController().getLastActionEvent());
 		} else if(state == State.FALLING) {
-			trueY +=3;
+			trueY += VELOCITY_Y;
 			node.setTranslateY(trueY);
 			move(ge.getController().getLastActionEvent());
 		} else {
@@ -113,11 +113,11 @@ public class MainCharacter extends Sprite {
 	public void move(GameEvent le) {
 			if(!collision(le)) {
 				if(le == GameEvent.RIGHT) {
-					trueX += VELOCITY;
-					ge.getStageCamera().augmentX(VELOCITY);
+					trueX += VELOCITY_X;
+					ge.getStageCamera().augmentX(VELOCITY_X);
 				} else if(le == GameEvent.LEFT) {
-					trueX -= VELOCITY;
-					ge.getStageCamera().augmentX(-VELOCITY);
+					trueX -= VELOCITY_X;
+					ge.getStageCamera().augmentX(-VELOCITY_X);
 				}
 			}
 			node.setTranslateX(trueX - ge.getStageCamera().getX());
@@ -129,8 +129,8 @@ public class MainCharacter extends Sprite {
 	
 	public boolean collision(GameEvent le) {
 		for (Sprite s : ge.getLevel().getAllSprites()) {
-			if (s.collision(this)) {
-				if(s.getXCoord() - 5 > trueX && le == GameEvent.RIGHT)
+			if (s.collision(this) && state != State.ONITEM) {
+				if(s.getXCoord() > trueX && le == GameEvent.RIGHT)
 					return true;
 				else if(s.getXCoord() < trueX && le == GameEvent.LEFT)
 					return true;
@@ -140,14 +140,27 @@ public class MainCharacter extends Sprite {
 	}
 	
 	public boolean checkGround() {
+		boolean ground = false;
 		for(Sprite s : ge.getLevel().getAllSprites()) {
-			if(s instanceof LevelGround) {
-				if(trueX < (((LevelGround)s).getEndX()+5) && trueX > (s.getXCoord()-5)) {
-					return true;
+			if(s.getCollisionType() == Sprite.CollisionType.GROUND) {
+				if(trueX < (s.getEndX()+5) && trueX > (s.getXCoord()-5)) {
+					ground = true;
 				}
+			} else if(s.getCollisionType() == Sprite.CollisionType.SOLID) {
+				if(s.collision(this) && (trueY + SPRITE_SIZE) < (s.getYCoord())){
+					System.out.println("1: " + (trueY + SPRITE_SIZE) + "\n2: " + (s.getYCoord() + s.getHeight()));
+					if(s.getXCoord() < trueX && s.getEndX() > trueX) {
+						System.out.println(s.getYCoord() + s.getHeight());
+						state = State.ONITEM;
+						return true;
+					}
+				}
+			} else if(state == State.ONITEM) {
+				state = State.JUMPING_DOWN;
+				return true;
 			}
 		}
-		return false;
+		return ground;
 	}
 
 	public void jump() {

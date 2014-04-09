@@ -15,4 +15,7 @@ public class BackgroundSprite extends Sprite {
 		return false;
 	}
 
+	public CollisionType geCollisionType() {
+		return CollisionType.TRANSPARENT;
+	}
 }

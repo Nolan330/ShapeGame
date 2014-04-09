@@ -22,8 +22,7 @@ import javafx.stage.Stage;
 
 public class ShapeEngine extends GameEngine {
 
-	private static final int port = 6060;
-	
+
 	public ShapeEngine(int fps, String title) {
 		super(fps, title);
 		level.setGameEngine(this);
@@ -37,8 +36,7 @@ public class ShapeEngine extends GameEngine {
 		setSceneNodes(new Group());
 		setGameSurface(new Scene(getSceneNodes(), WIDTH, HEIGHT));
 		primaryStage.setScene(getGameSurface());
-		//setController(new KeyboardController(getGameSurface()));
-		setController(new AndroidController(getGameSurface(), port));
+		setController(new KeyboardController(getGameSurface()));
 		
 		final Timeline gameLoop = getGameLoop();
 		level.loadFromXml("/level.xml");
