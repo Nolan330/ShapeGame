@@ -1,8 +1,8 @@
 package com.cs279.ShapeWorld;
 
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.image.ImageView;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
@@ -58,6 +58,10 @@ public class MainCharacter extends Sprite {
 		this.ge = ge; //REFACTOR
 		GameEvent last = ge.getController().getLastEvent() == null ? GameEvent.NONE
 				: ge.getController().getLastEvent();
+		if(last == GameEvent.SHOOT) {
+			explodeClosest();
+			return;
+		}
 		if(!checkGround()) {
 			state = State.FALLING;
 		}
@@ -159,6 +163,42 @@ public class MainCharacter extends Sprite {
 
 	public String getType() {
 		return null;
+	}
+	
+	public void explodeClosest() {
+		Sprite closest = null;
+		double closeness = Integer.MAX_VALUE;
+		for(Sprite s:ge.getLevel().getAllSprites()) {
+			if(Math.abs(s.getXCoord()-trueX) < closeness
+						&& s.getNode().isVisible()
+						&& ge.getStageCamera().isVisible(s)
+						&& !s.DEAD
+						&& !(s instanceof BackgroundSprite)
+						&& !(s instanceof MainCharacter)
+						&& !(s instanceof LevelGround)) {
+				closest = s;
+				closeness = Math.abs(s.getXCoord() - trueX);
+			}	
+		}
+		if(closest != null) {
+			BackgroundSprite explosion = new BackgroundSprite("/explosion.gif", closest.trueX, closest.trueY) {
+				public void update() {
+					return;
+				}
+			};
+			explosion.initialize();
+			/*
+			 * ConcurrentModificationException being thrown here. Works but needs to be handled.
+			 */
+			FadeTransition ft = new FadeTransition(Duration.millis(600), explosion.getNode());
+			ft.setFromValue(1.0);
+			ft.setToValue(0.01);
+			ft.setCycleCount(1);
+			ge.getLevel().addSprite(explosion);
+			ft.play();
+			closest.DEAD = true;
+			
+		}
 	}
 
 }

@@ -10,6 +10,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 public class Sprite {
 	
 	@XStreamOmitField protected ImageView node;
+	@XStreamOmitField protected boolean DEAD = false;
 	
 	protected String imageLocation; 
 	protected int trueX;
@@ -18,6 +19,7 @@ public class Sprite {
 	public Sprite(String imageLocation, int x, int y) {
 		trueX = x;
 		trueY = y;
+		this.imageLocation = imageLocation;
 	}
 	
 	private Object readResolve() {
@@ -27,7 +29,9 @@ public class Sprite {
 
 	public void update(GameEngine ge) {
 		StageCamera sc = ge.getStageCamera();
-		if (sc.isVisible(this)) {
+		if(DEAD) {
+			node.setVisible(false);
+		} else if (sc.isVisible(this)) {
 			double visX = sc.getVisibleX(trueX);
 			double visY = sc.getVisibleY(trueY);
 			node.setVisible(true);
@@ -51,7 +55,9 @@ public class Sprite {
 	}
 	
 	public boolean collision(Sprite other) {
-		return !this.equals(other) && node.getBoundsInParent().intersects(other.getNode().getBoundsInParent());
+		return !this.equals(other) 
+					&& !DEAD
+					&& node.getBoundsInParent().intersects(other.getNode().getBoundsInParent());
 	}
 
 	/*

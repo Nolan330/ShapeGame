@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 
 public class Controller {
 	public enum GameEvent {
-		RIGHT, LEFT, UP, DOWN, NONE
+		RIGHT, LEFT, UP, DOWN, NONE, SHOOT
 	}
 	
 	private GameEvent lastEvent;

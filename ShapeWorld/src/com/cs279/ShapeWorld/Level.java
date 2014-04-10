@@ -29,12 +29,18 @@ public class Level {
 	}
 
 	public void addSprite(Sprite s) {
-		gameEngine.getSceneNodes().getChildren().add(0, s.getNode());
+		System.out.println(s);
+		gameEngine.getSceneNodes().getChildren().add(s.getNode());
 		sprites.add(s);
 	}
 
 	public List<Sprite> getAllSprites() {
 		return sprites;
+	}
+	
+	public void removeSprite(Sprite s) {
+		gameEngine.getSceneNodes().getChildren().remove(s);
+		sprites.remove(s);
 	}
 
 

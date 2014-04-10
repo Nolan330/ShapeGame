@@ -17,6 +17,7 @@ public class KeyboardController extends Controller {
 		keyMap.put(KeyCode.LEFT, GameEvent.LEFT);
 		keyMap.put(KeyCode.UP, GameEvent.UP);
 		keyMap.put(KeyCode.DOWN, GameEvent.DOWN);
+		keyMap.put(KeyCode.S, GameEvent.SHOOT);
 		initEventHandler();
 	}
 	
