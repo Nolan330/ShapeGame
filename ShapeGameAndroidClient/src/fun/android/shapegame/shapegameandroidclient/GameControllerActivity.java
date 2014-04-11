@@ -6,31 +6,38 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 
 public class GameControllerActivity extends Activity {
 	
 	private final String TAG = this.getClass().getSimpleName();
 	
-	private EditText serverName;
-	private EditText serverPort;
-	
+	private ServerConnectFragment scFragment;
+	private GameControllerFragment gcFragment;
+
 	private Messenger ctrlSender = null;
 	private boolean isBound = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_game_controller);
+		setContentView(R.layout.activity_blank);
 		
-		serverName = (EditText) findViewById(R.id.serverName);
-		serverPort = (EditText) findViewById(R.id.serverPort);
+		scFragment = new ServerConnectFragment();
+		
+		FragmentTransaction trans = getFragmentManager().beginTransaction();
+		
+		trans.replace(R.id.fragment_container, scFragment);
+		trans.addToBackStack(null);
+		trans.commit();
+		
+		gcFragment = new GameControllerFragment();
 	}
 	
 	@Override
@@ -43,6 +50,12 @@ public class GameControllerActivity extends Activity {
 	
 	@Override
 	protected void onStop() {
+		
+		 Message disconnectCtrl = Message.obtain(null, 
+	        	CommandControllerService.DISCONNECT);
+		
+		 sendControl(disconnectCtrl);
+		 
 		 if(isBound) {
 			 unbindService(this.ctrlConnection); 
 		 }
@@ -54,7 +67,6 @@ public class GameControllerActivity extends Activity {
     protected void onDestroy() {
         
         try {
-            unbindService(this.ctrlConnection);
             stopService(new Intent(GameControllerActivity.this, 
             			CommandControllerService.class));
         } catch (Throwable t) {
@@ -100,13 +112,17 @@ public class GameControllerActivity extends Activity {
 		Log.d(TAG, "connectToServer invoked");
         Message connectCtrl = Message.obtain(null, 
         	CommandControllerService.CONNECT,
-        	Integer.parseInt(serverPort.getText().toString()), 0,
-        	serverName.getText().toString());
+        	scFragment.getServerPort(), 0, scFragment.getServerName());
         
         sendControl(connectCtrl);
+        
+        FragmentTransaction trans = getFragmentManager().beginTransaction();
+		trans.replace(R.id.fragment_container, gcFragment);
+		trans.addToBackStack(null);
+		trans.commit();
 	}
 	
-	private void sendControl(Message ctrl) {
+	void sendControl(Message ctrl) {
 		if (isBound) {
             if (ctrlSender != null) {
                 try {

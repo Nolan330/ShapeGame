@@ -36,6 +36,7 @@ public class CommandControllerService extends Service {
 	static final int DIR_DOWN = 3;
 	static final int CONNECT = 4;
 	static final int DISCONNECT = 5;
+	static final int CLOUD_KILL = 10;
 	
 	@Override
     public void onCreate() {
@@ -71,6 +72,7 @@ public class CommandControllerService extends Service {
 				socket = new Socket(serverName, serverPort);
 				Log.d(TAG, "Connected: " + socket);
 				start();
+				return socket.isBound();
 			}
 			catch(UnknownHostException uhe) {  
 	    	  Log.d(TAG, "Host unknown: " + uhe.getMessage());
@@ -79,7 +81,7 @@ public class CommandControllerService extends Service {
 	    	  Log.d(TAG, "Unexpected exception: " + ioe.getMessage());
 			}
 			
-			return socket.isBound();
+			return false;
 		}
 		
 		@Override
@@ -142,7 +144,15 @@ public class CommandControllerService extends Service {
             case DISCONNECT:
             	Log.d(ctrlRef.get().TAG, "DISCONNECT PRESSED");
             	if(ctrlRef != null) {
+            		//send control to notify player of disconnection
             		ctrlRef.get().stop();
+            	}
+            	break;
+            	
+            case CLOUD_KILL:
+            	if(ctrlRef != null) {
+            		Log.d(ctrlRef.get().TAG, "CLOUD_KILL INVOKED");
+            		ctrlRef.get().sendControl(CLOUD_KILL);
             	}
             	break;
             	

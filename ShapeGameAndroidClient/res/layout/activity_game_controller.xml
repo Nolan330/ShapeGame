@@ -6,13 +6,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".GameControllerActivity" >
+    tools:context=".GameControllerActivity"
+    android:background="#FFFFFF" >
     
     <Button
         android:id="@+id/leftDirection"
         android:onClick="leftDirection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/button_left"
+        android:textColor="#FFFFFF"
         android:layout_centerVertical="true" />
 
     <Button
@@ -21,6 +24,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@id/leftDirection"
+        android:text="@string/button_up"
+        android:textColor="#FFFFFF"
         android:layout_toRightOf="@id/leftDirection" />
     
     <Button
@@ -29,6 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/upDirection"
+        android:text="@string/button_right"
+        android:textColor="#FFFFFF"
         android:layout_toRightOf="@id/upDirection" />
     
     <Button
@@ -37,33 +44,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/leftDirection"
+        android:text="@string/button_down"
+        android:textColor="#FFFFFF"
         android:layout_toRightOf="@id/leftDirection" />
     
-    <EditText
-        android:id="@+id/serverName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/rightDirection"
-        android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/rightDirection"
-        android:hint="@string/server_name" />
+    <android.gesture.GestureOverlayView 
+		android:id="@+id/spellDetectorView"
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:layout_toRightOf="@+id/rightDirection"
+    	android:layout_marginLeft="10dp"
+    	android:background="@drawable/border"
+    	android:gestureColor="#000000" />
     
-    <EditText
-        android:id="@+id/serverPort"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/serverName"
-        android:layout_toRightOf="@id/rightDirection"
-        android:hint="@string/server_port" />
-    
-    <Button
-        android:id="@+id/connectButton"
-        android:onClick="connectToServer"
-        android:text="@string/connect_server"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/serverPort" />
     
 </RelativeLayout>

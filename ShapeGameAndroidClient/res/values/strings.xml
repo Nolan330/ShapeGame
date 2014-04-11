@@ -8,5 +8,10 @@
     <string name="server_port">Server Port</string>
     <string name="connect_server">Connect To Server</string>
     <string name="disconnect_server">Disconnect From Server</string>
+    <string name="button_left">&#60;</string>
+    <string name="button_up">^</string>
+    <string name="button_right">&#62;</string>
+    <string name="button_down">v</string>
+    
 
 </resources>
