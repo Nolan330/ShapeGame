@@ -25,7 +25,7 @@ public class ShapeEngine extends GameEngine {
 		setGameSurface(new Scene(getSceneNodes(), WIDTH, HEIGHT));
 		primaryStage.setScene(getGameSurface());
 		//setController(new KeyboardController(getGameSurface()));
-		setController(new KeyboardController(getGameSurface()));
+		setController(new AndroidController(getGameSurface(), 6060));
 		
 		final Timeline gameLoop = getGameLoop();
 		level.loadFromXml("/level.xml");
