@@ -28,6 +28,18 @@
 		<range>200</range>
 		<imageLocation>/enemy_red.png</imageLocation>
 	</enemy>
+		<enemy>
+		<trueX>1500</trueX>
+		<trueY>280</trueY>
+		<range>100</range>
+		<imageLocation>/enemy_red.png</imageLocation>
+	</enemy>
+	<enemy>
+		<trueX>2800</trueX>
+		<trueY>280</trueY>
+		<range>200</range>
+		<imageLocation>/enemy_red.png</imageLocation>
+	</enemy>
 	<backgroundsprite>
 		<trueX>0</trueX>
 		<trueY>33</trueY>

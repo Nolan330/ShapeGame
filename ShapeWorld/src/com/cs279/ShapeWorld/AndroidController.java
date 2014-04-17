@@ -23,6 +23,7 @@ public class AndroidController extends Controller implements Runnable {
 	static final int DIR_DOWN = 3;
 	static final int CLOUD_KILLER = 10;
 	static final int DOUBLE_JUMP = 15;
+	static final int RESET = 20;
 	
 	public AndroidController(GameEngine s, int port) {
 		super(s);
@@ -35,6 +36,7 @@ public class AndroidController extends Controller implements Runnable {
 		keyMap.put(DIR_DOWN, GameEvent.DOWN);
 		keyMap.put(CLOUD_KILLER, GameEvent.SHOOT);
 		keyMap.put(DOUBLE_JUMP, GameEvent.DOUBLE_JUMP);
+		keyMap.put(RESET, GameEvent.RESET);
 		
 		// start the server and wait for connections
 		try {  
@@ -92,7 +94,7 @@ public class AndroidController extends Controller implements Runnable {
 						   switch(cmd) {
 						   case DIR_UP:
 							   setLastEvent(keyMap.get(DIR_UP));
-							   Thread.sleep(350);
+							   Thread.sleep(150);
 							   setLastEvent(GameEvent.NONE);
 							   break;
 							   
@@ -114,6 +116,14 @@ public class AndroidController extends Controller implements Runnable {
 							   setLastEvent(keyMap.get(DOUBLE_JUMP));
 							   Thread.sleep(20);
 							   setLastEvent(GameEvent.NONE);
+							   break;
+							   
+						   case RESET:
+							   setLastEvent(keyMap.get(RESET));
+							   Thread.sleep(150);
+							   setLastEvent(keyMap.get(RESET));
+							   Thread.sleep(150);
+							   setLastEvent(keyMap.get(RESET));
 							   break;
 							 
 						   default:

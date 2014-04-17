@@ -12,7 +12,8 @@ public class BackgroundSprite extends Sprite {
 	}
 	
 	public void update(GameEngine ge) {
-
+		node.setTranslateX(trueX);
+		node.setTranslateY(trueY);
 	}
 	
 	public boolean collision(Sprite other) {

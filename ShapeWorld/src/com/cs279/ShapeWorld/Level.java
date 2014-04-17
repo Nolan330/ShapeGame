@@ -63,18 +63,18 @@ public class Level {
 	}
 	
 	public void reset() {
-		for(Sprite s : sprites) {
-			s.DEAD = false;
-		}
 		mainCharacter.trueX = 200;
 		mainCharacter.trueY = 280;
-		mainCharacter.setStanding();
 		mainCharacter.node.setVisible(true);
 		deathScreen.setVisible(false);
 		mainCharacter.jump(MainCharacter.State.JUMPING_UP);
 		
 		gameEngine.getStageCamera().setX(0);
 		gameEngine.getStageCamera().setY(0);
+		
+		for(Sprite s : sprites) {
+			s.DEAD = false;
+		}
 	}
 	
 	public void initLevelItems() {

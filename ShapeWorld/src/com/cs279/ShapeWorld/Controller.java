@@ -29,7 +29,11 @@ public class Controller {
 			lastActionEvent = lastEvent;
 		}
 		if(lastEvent == GameEvent.RESET) {
-			ge.level.reset();
+			if(ge.level.getMainCharacter().DEAD){
+				ge.level.reset();
+			}
+				
+			//lastEvent = GameEvent.NONE;
 		}
 	}
 	
