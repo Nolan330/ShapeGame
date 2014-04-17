@@ -45,9 +45,7 @@ public abstract class GameEngine {
 		final KeyFrame frame = new KeyFrame(frameLength, new EventHandler() {
 			@Override
 			public void handle(Event event) {
-				// drawScene();
 				updateSprites();
-				// checkCollisions();
 			}
 
 		});
@@ -79,6 +77,8 @@ public abstract class GameEngine {
 					+ camera.getY() + "\nWidth: " + WIDTH + "\nHeight: "
 					+ HEIGHT);
 	}
+	
+	public abstract boolean isGameOver();
 
 	public StageCamera getStageCamera() {
 		return camera;

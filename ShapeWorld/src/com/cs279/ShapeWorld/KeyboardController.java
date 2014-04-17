@@ -10,7 +10,7 @@ import javafx.scene.input.KeyEvent;
 public class KeyboardController extends Controller {
 	private HashMap<KeyCode, GameEvent> keyMap;
 
-	public KeyboardController(Scene s) {
+	public KeyboardController(GameEngine s) {
 		super(s);
 		keyMap = new HashMap<KeyCode, GameEvent>();
 		keyMap.put(KeyCode.RIGHT, GameEvent.RIGHT);
@@ -18,11 +18,13 @@ public class KeyboardController extends Controller {
 		keyMap.put(KeyCode.UP, GameEvent.UP);
 		keyMap.put(KeyCode.DOWN, GameEvent.DOWN);
 		keyMap.put(KeyCode.S, GameEvent.SHOOT);
+		keyMap.put(KeyCode.W, GameEvent.DOUBLE_JUMP);
+		keyMap.put(KeyCode.ESCAPE, GameEvent.RESET);
 		initEventHandler();
 	}
 	
 	private void initEventHandler() {
-		gameSurface.addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		ge.getGameSurface().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {
@@ -32,7 +34,7 @@ public class KeyboardController extends Controller {
 			}
 		});
 		
-		gameSurface.addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
+		ge.getGameSurface().addEventHandler(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
 
 			@Override
 			public void handle(KeyEvent event) {

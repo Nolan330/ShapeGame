@@ -11,7 +11,7 @@ import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class MainCharacter extends Sprite {
 	public enum State {
-		STANDING, JUMPING_UP, JUMPING_DOWN, FALLING, WALKING
+		STANDING, JUMPING_UP, JUMPING_DOWN, FALLING, WALKING, DOUBLE_JUMP
 	}
 
 	@XStreamOmitField
@@ -34,7 +34,6 @@ public class MainCharacter extends Sprite {
 		super(imageLocation, x, y);
 
 		node.setViewport(new Rectangle2D(0, 0, 100, 100));
- 
 	}
 
 	private Object readResolve() {
@@ -56,6 +55,10 @@ public class MainCharacter extends Sprite {
 	@Override
 	public void update(GameEngine ge) {
 		this.ge = ge; //REFACTOR
+		if(DEAD) {
+			ge.getLevel().setGameOver();
+			return;
+		}
 		GameEvent last = ge.getController().getLastEvent() == null ? GameEvent.NONE
 				: ge.getController().getLastEvent();
 		if(last == GameEvent.SHOOT) {
@@ -66,7 +69,7 @@ public class MainCharacter extends Sprite {
 			state = State.FALLING;
 		}
 		if (state == State.JUMPING_UP) {
-			trueY -= 4;
+			trueY -= 5;
 			if ((280 - trueY) > 70) {
 				state = State.JUMPING_DOWN;
 			}
@@ -74,6 +77,16 @@ public class MainCharacter extends Sprite {
 			if(ge.getController().getLastActionEvent() != GameEvent.DOWN)
 				move(ge.getController().getLastActionEvent());
 			else
+				state = State.JUMPING_DOWN;
+		} else if (state == State.DOUBLE_JUMP) {
+			trueY -= 4;
+			if((280 - trueY) > 140){
+				state = State.JUMPING_DOWN;
+			}
+			node.setTranslateY(trueY);
+			if(ge.getController().getLastActionEvent() != GameEvent.DOWN)
+				move(ge.getController().getLastActionEvent());
+			else if(ge.getController().getLastActionEvent() == GameEvent.DOWN)
 				state = State.JUMPING_DOWN;
 		} else if (state == State.JUMPING_DOWN) {
 			trueY += 3;
@@ -85,6 +98,8 @@ public class MainCharacter extends Sprite {
 			move(ge.getController().getLastActionEvent());
 		} else if(state == State.FALLING) {
 			trueY +=3;
+			if(trueY > GameEngine.HEIGHT) 
+				ge.getLevel().setGameOver();
 			node.setTranslateY(trueY);
 			move(ge.getController().getLastActionEvent());
 		} else {
@@ -100,9 +115,12 @@ public class MainCharacter extends Sprite {
 				move(last);
 				break;
 			case UP:
-				jump();
+				jump(State.JUMPING_UP);
 				break;
 			case DOWN:
+				break;
+			case DOUBLE_JUMP:
+				jump(State.DOUBLE_JUMP);
 				break;
 			case NONE:
 				animation.stop();
@@ -128,6 +146,7 @@ public class MainCharacter extends Sprite {
 	}
 
 	public void setStanding() {
+		state = State.STANDING;
 		node.setViewport(new Rectangle2D(0, 800, 100, 100));
 	}
 	
@@ -154,10 +173,10 @@ public class MainCharacter extends Sprite {
 		return false;
 	}
 
-	public void jump() {
+	public void jump(State type) {
 		animation.stop();
 		node.setViewport(new Rectangle2D(0, 0, 100, 100));
-		state = State.JUMPING_UP;
+		state = type;
 	}
 
 
@@ -173,15 +192,13 @@ public class MainCharacter extends Sprite {
 						&& s.getNode().isVisible()
 						&& ge.getStageCamera().isVisible(s)
 						&& !s.DEAD
-						&& !(s instanceof BackgroundSprite)
-						&& !(s instanceof MainCharacter)
-						&& !(s instanceof LevelGround)) {
+						&& s instanceof EnemySprite) {
 				closest = s;
 				closeness = Math.abs(s.getXCoord() - trueX);
 			}	
 		}
 		if(closest != null) {
-			BackgroundSprite explosion = new BackgroundSprite("/explosion.gif", closest.trueX, closest.trueY) {
+			BackgroundSprite explosion = new BackgroundSprite("/lightning.gif", closest.trueX, closest.trueY) {
 				public void update() {
 					return;
 				}

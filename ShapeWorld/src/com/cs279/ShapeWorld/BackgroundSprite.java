@@ -11,6 +11,10 @@ public class BackgroundSprite extends Sprite {
 		return this;
 	}
 	
+	public void update(GameEngine ge) {
+
+	}
+	
 	public boolean collision(Sprite other) {
 		return false;
 	}

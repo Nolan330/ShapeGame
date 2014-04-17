@@ -4,15 +4,15 @@ import javafx.scene.Scene;
 
 public class Controller {
 	public enum GameEvent {
-		RIGHT, LEFT, UP, DOWN, NONE, SHOOT
+		RIGHT, LEFT, UP, DOWN, NONE, SHOOT, DOUBLE_JUMP, RESET
 	}
 	
 	private GameEvent lastEvent;
 	private GameEvent lastActionEvent;
-	protected Scene gameSurface;
+	protected GameEngine ge;
 	
-	public Controller(Scene s) {
-		gameSurface = s;
+	public Controller(GameEngine s) {
+		ge = s;
 	}
 
 	public GameEvent getLastEvent() {
@@ -27,6 +27,9 @@ public class Controller {
 		this.lastEvent = lastEvent;
 		if(lastEvent != GameEvent.NONE || lastEvent != GameEvent.UP) {
 			lastActionEvent = lastEvent;
+		}
+		if(lastEvent == GameEvent.RESET) {
+			ge.level.reset();
 		}
 	}
 	

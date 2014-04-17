@@ -4,26 +4,30 @@
 		<trueY>280</trueY>
 		<imageLocation>/main-animation.png</imageLocation>
 	</maincharacter>
-	<sprite>
-		<trueX>10</trueX>
-		<trueY>280</trueY>
-		<imageLocation>/cloud_0_small.png</imageLocation>
-	</sprite>
-	<sprite>
+	<enemy>
 		<trueX>600</trueX>
 		<trueY>280</trueY>
-		<imageLocation>/cloud_0_small.png</imageLocation>
-	</sprite>
-		<sprite>
+		<range>100</range>
+		<imageLocation>/enemy_red.png</imageLocation>
+	</enemy>
+	<enemy>
 		<trueX>800</trueX>
 		<trueY>280</trueY>
-		<imageLocation>/cloud_0_small.png</imageLocation>
-	</sprite>
-		<sprite>
-		<trueX>1100</trueX>
+		<range>140</range>
+		<imageLocation>/enemy_red.png</imageLocation>
+	</enemy>
+	<enemy>
+		<trueX>1250</trueX>
+		<trueY>270</trueY>
+		<range>75</range>
+		<imageLocation>/enemy_red.png</imageLocation>
+	</enemy>
+	<enemy>
+		<trueX>2000</trueX>
 		<trueY>280</trueY>
-		<imageLocation>/cloud_0_small.png</imageLocation>
-	</sprite>
+		<range>200</range>
+		<imageLocation>/enemy_red.png</imageLocation>
+	</enemy>
 	<backgroundsprite>
 		<trueX>0</trueX>
 		<trueY>33</trueY>
@@ -64,6 +68,24 @@
 	<ground>
 		<trueX>1400</trueX>
 		<trueEndX>2100</trueEndX>
+		<trueY>300</trueY>
+		<imageLocation>/green.png</imageLocation>
+	</ground>
+	<ground>
+		<trueX>2100</trueX>
+		<trueEndX>2800</trueEndX>
+		<trueY>300</trueY>
+		<imageLocation>/dark.png</imageLocation>
+	</ground>
+	<ground>
+		<trueX>2800</trueX>
+		<trueEndX>3500</trueEndX>
+		<trueY>300</trueY>
+		<imageLocation>/yellow.png</imageLocation>
+	</ground>
+	<ground>
+		<trueX>3500</trueX>
+		<trueEndX>4200</trueEndX>
 		<trueY>300</trueY>
 		<imageLocation>/green.png</imageLocation>
 	</ground>
