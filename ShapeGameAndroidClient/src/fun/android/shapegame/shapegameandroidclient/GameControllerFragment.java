@@ -70,6 +70,20 @@ public class GameControllerFragment extends Fragment
 					        
 					gcActivity.sendControl(cloudkillCtrl);
 				}
+				else if (spell.equals("C")) {
+					Log.d(TAG, "DOUBLEJUMP invoked");
+					Message doublejumpCtrl = Message.obtain(null, 
+							CommandControllerService.DOUBLE_JUMP);
+					        
+					gcActivity.sendControl(doublejumpCtrl);
+				}
+				else if (spell.equals("D")) {
+					Log.d(TAG, "RESET invoked");
+					Message resetCtrl = Message.obtain(null, 
+							CommandControllerService.RESET);
+					        
+					gcActivity.sendControl(resetCtrl);
+				}
 				else {
 					Log.d(TAG, "spell name: " + spell + 
 							" Score: " + predictions.get(0).score);

@@ -37,6 +37,8 @@ public class CommandControllerService extends Service {
 	static final int CONNECT = 4;
 	static final int DISCONNECT = 5;
 	static final int CLOUD_KILL = 10;
+	static final int DOUBLE_JUMP = 15;
+	static final int RESET = 20;
 	
 	@Override
     public void onCreate() {
@@ -153,6 +155,20 @@ public class CommandControllerService extends Service {
             	if(ctrlRef != null) {
             		Log.d(ctrlRef.get().TAG, "CLOUD_KILL INVOKED");
             		ctrlRef.get().sendControl(CLOUD_KILL);
+            	}
+            	break;
+            	
+            case DOUBLE_JUMP:
+            	if(ctrlRef != null) {
+            		Log.d(ctrlRef.get().TAG, "Double jump INVOKED");
+            		ctrlRef.get().sendControl(DOUBLE_JUMP);
+            	}
+            	break;
+            	
+            case RESET:
+            	if(ctrlRef != null) {
+            		Log.d(ctrlRef.get().TAG, "RESET INVOKED");
+            		ctrlRef.get().sendControl(RESET);
             	}
             	break;
             	
