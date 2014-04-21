@@ -8,6 +8,7 @@ import java.util.List;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
@@ -22,6 +23,9 @@ public class Level {
 	
 	@XStreamOmitField
 	private Text debugTxt;
+	
+	@XStreamOmitField
+	private Text alertText;
 	
 	@XStreamOmitField
 	private ImageView deathScreen;
@@ -40,6 +44,15 @@ public class Level {
 	
 	public MainCharacter getMainCharacter() {
 		return mainCharacter;
+	}
+	
+	public void setAlertText(String txt) {
+		if(txt == null) {
+			alertText.setVisible(false);
+		} else {
+			alertText.setVisible(true);
+			alertText.setText(txt);
+		}
 	}
 
 	public void addSprite(Sprite s) {
@@ -68,7 +81,7 @@ public class Level {
 		mainCharacter.node.setVisible(true);
 		deathScreen.setVisible(false);
 		mainCharacter.jump(MainCharacter.State.JUMPING_UP);
-		
+		alertText.setText("");
 		gameEngine.getStageCamera().setX(0);
 		gameEngine.getStageCamera().setY(0);
 		
@@ -92,6 +105,14 @@ public class Level {
 		deathScreen.setTranslateX(0);
 		deathScreen.setTranslateY(0);
 		gameEngine.getSceneNodes().getChildren().add(deathScreen);
+		
+		alertText = new Text();
+		alertText.setText("Waiting for controller to connect...");
+		alertText.setFont(Font.font("Times-Roman",20));
+		alertText.setTextAlignment(TextAlignment.CENTER);
+		alertText.setTranslateX(175);
+		alertText.setTranslateY(200);
+		gameEngine.getSceneNodes().getChildren().add(alertText);
 	}
 
 
@@ -125,6 +146,7 @@ public class Level {
 		lvlReader.alias("maincharacter",com.cs279.ShapeWorld.MainCharacter.class);
 		lvlReader.alias("ground", com.cs279.ShapeWorld.LevelGround.class);
 		lvlReader.alias("enemy", com.cs279.ShapeWorld.EnemySprite.class);
+		lvlReader.alias("checkpoint", com.cs279.ShapeWorld.Checkpoint.class);
 	}
 	
 	public void setDebugText(String txt) {

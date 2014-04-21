@@ -24,6 +24,7 @@ public class AndroidController extends Controller implements Runnable {
 	static final int CLOUD_KILLER = 10;
 	static final int DOUBLE_JUMP = 15;
 	static final int RESET = 20;
+	static final int CONNECTED = 100;
 	
 	public AndroidController(GameEngine s, int port) {
 		super(s);
@@ -85,8 +86,14 @@ public class AndroidController extends Controller implements Runnable {
 				   socket = server.accept();
 				   System.out.println("Client accepted: " + socket);
 				   open();
-				   boolean done = false;
 				   
+				   ge.getLevel().setAlertText("Controller connected.");
+				   Thread.sleep(800);
+				   ge.getLevel().setAlertText("Start.");
+				   Thread.sleep(800);
+				   ge.getLevel().setAlertText(null);
+				   boolean done = false;
+				  
 				   while (!done) {  
 					   try {  
 						   Integer cmd = streamIn.readInt();
@@ -135,7 +142,7 @@ public class AndroidController extends Controller implements Runnable {
 	            }
 	            close();
 	         }
-	         catch(IOException ie) { System.out.println("Acceptance Error: " + ie); }
+	         catch(IOException | InterruptedException ie) { System.out.println("Acceptance Error: " + ie); }
 	      }
 	   }
 	 

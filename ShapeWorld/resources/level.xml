@@ -101,4 +101,9 @@
 		<trueY>300</trueY>
 		<imageLocation>/green.png</imageLocation>
 	</ground>
+	<checkpoint>
+		<trueX>3000</trueX>
+		<trueY>280</trueY>
+		<imageLocation>/stop.jpg</imageLocation>
+	</checkpoint>
 </list>

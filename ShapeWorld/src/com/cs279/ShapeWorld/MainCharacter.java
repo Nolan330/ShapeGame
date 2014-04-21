@@ -153,6 +153,10 @@ public class MainCharacter extends Sprite {
 	public boolean collision(GameEvent le) {
 		for (Sprite s : ge.getLevel().getAllSprites()) {
 			if (s.collision(this)) {
+				if(s instanceof Checkpoint) {
+					ge.level.setAlertText("Level over!!!");
+				}
+				
 				if(s.getXCoord() - 5 > trueX && le == GameEvent.RIGHT)
 					return true;
 				else if(s.getXCoord() < trueX && le == GameEvent.LEFT)
