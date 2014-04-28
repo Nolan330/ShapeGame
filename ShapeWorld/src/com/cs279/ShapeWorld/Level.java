@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 
+import com.cs279.ShapeWorld.EnemySprite.EnemyType;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
@@ -20,6 +21,9 @@ public class Level {
 	private String levelName;
 	private GameEngine gameEngine;
 	private XStream lvlReader;
+	
+	@XStreamOmitField
+	private boolean completed = false;
 	
 	@XStreamOmitField
 	private Text debugTxt;
@@ -75,7 +79,13 @@ public class Level {
 		deathScreen.toFront();
 	}
 	
-	public void reset() {
+	public void reset(boolean nextLevel) {
+		if(nextLevel)
+			gameEngine.currentLevel++;
+		if(gameEngine.currentLevel > 4) {
+			mainCharacter.DEAD = true;
+			setGameOver();
+		}
 		mainCharacter.trueX = 200;
 		mainCharacter.trueY = 280;
 		mainCharacter.node.setVisible(true);
@@ -85,9 +95,46 @@ public class Level {
 		gameEngine.getStageCamera().setX(0);
 		gameEngine.getStageCamera().setY(0);
 		
+		
 		for(Sprite s : sprites) {
 			s.DEAD = false;
+			
+			//Update properties of enemies for the level
+			switch(gameEngine.currentLevel) {
+			default:
+				
+			case 4:
+				if((s instanceof MainCharacter) && nextLevel) {
+				//up to six blue enemies added.
+					int numBlueEnemies = (int) (Math.random() * 4 + 2);
+					for(int i=0;i<numBlueEnemies;i++) {
+						int x = (int) Math.random() * 2350 + 675;
+						int range = (int) Math.random() * 200 + 250;
+						addSprite(new EnemySprite("/enemy_blue.png", x, 280, 4, range, EnemyType.BLUE));
+					}
+				}
+			
+			case 3:
+				if(s instanceof EnemySprite) {
+					((EnemySprite) s).setPath(true);
+				}
+			
+			case 2:
+				if(s instanceof EnemySprite) {
+					EnemySprite e = (EnemySprite) s;
+					e.setSpeed(4);
+					e.setRange(e.getRange() * 2);
+				}
+				break;
+			case 1:
+				if(s instanceof EnemySprite) {
+					((EnemySprite) s).setPath(false);
+					((EnemySprite) s).setSpeed(2);
+					((EnemySprite) s).setEnemyType(EnemyType.RED);
+				}
+			}
 		}
+		completed = false;
 	}
 	
 	public void initLevelItems() {
@@ -151,6 +198,14 @@ public class Level {
 	
 	public void setDebugText(String txt) {
 		debugTxt.setText(txt);
+	}
+	
+	public void setCompleted(boolean c) {
+		completed = c;
+	}
+	
+	public boolean isCompleted() {
+		return completed;
 	}
 
 }

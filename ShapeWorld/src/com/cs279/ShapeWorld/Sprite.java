@@ -27,10 +27,12 @@ public class Sprite {
 		return this;
 	}
 
-	public void update(GameEngine ge) {
+	public void update(GameEngine ge) {		
 		StageCamera sc = ge.getStageCamera();
 		if(DEAD) {
 			node.setVisible(false);
+		} else if(ge.getLevel().isCompleted()) {
+			return;
 		} else if (sc.isVisible(this)) {
 			double visX = sc.getVisibleX(trueX);
 			double visY = sc.getVisibleY(trueY);
@@ -57,6 +59,7 @@ public class Sprite {
 	public boolean collision(Sprite other) {
 		return !this.equals(other) 
 					&& !DEAD
+					&& node.isVisible()
 					&& node.getBoundsInParent().intersects(other.getNode().getBoundsInParent());
 	}
 

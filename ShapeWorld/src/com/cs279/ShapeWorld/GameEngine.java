@@ -29,11 +29,14 @@ public abstract class GameEngine {
 	protected Level level = new Level("Level 1");
 
 	private Controller controller;
+	
+	public int currentLevel;
 
 	public GameEngine(final int fps, final String title) {
 		framesPerSecond = fps;
 		windowTitle = title;
 		camera = new StageCamera(0, 0, WIDTH, HEIGHT);
+		currentLevel = 1;
 		buildGameLoop();
 	}
 
@@ -72,10 +75,14 @@ public abstract class GameEngine {
 		for (Sprite sprite : level.getAllSprites()) {
 			sprite.update(this);
 		}
-		if (DEBUG)
+		if (DEBUG) {
+			level.setDebugText("\nLevel: " + currentLevel);
+		}
+		/*
 			level.setDebugText("CameraX: " + camera.getX() + "\nCameraY: "
 					+ camera.getY() + "\nWidth: " + WIDTH + "\nHeight: "
-					+ HEIGHT);
+					+ HEIGHT + "\nLevel: ");
+					*/
 	}
 	
 	public abstract boolean isGameOver();

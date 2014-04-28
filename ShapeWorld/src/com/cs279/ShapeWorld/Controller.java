@@ -4,7 +4,7 @@ import javafx.scene.Scene;
 
 public class Controller {
 	public enum GameEvent {
-		RIGHT, LEFT, UP, DOWN, NONE, SHOOT, DOUBLE_JUMP, RESET
+		RIGHT, LEFT, UP, DOWN, NONE, SHOOT_RED, SHOOT_BLUE, DOUBLE_JUMP, RESET
 	}
 	
 	private GameEvent lastEvent;
@@ -30,10 +30,8 @@ public class Controller {
 		}
 		if(lastEvent == GameEvent.RESET) {
 			if(ge.level.getMainCharacter().DEAD){
-				ge.level.reset();
+				ge.level.reset(false);
 			}
-				
-			//lastEvent = GameEvent.NONE;
 		}
 	}
 	

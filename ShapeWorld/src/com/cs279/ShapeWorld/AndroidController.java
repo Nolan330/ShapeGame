@@ -35,7 +35,7 @@ public class AndroidController extends Controller implements Runnable {
 		keyMap.put(DIR_LEFT, GameEvent.LEFT);
 		keyMap.put(DIR_UP, GameEvent.UP);
 		keyMap.put(DIR_DOWN, GameEvent.DOWN);
-		keyMap.put(CLOUD_KILLER, GameEvent.SHOOT);
+		keyMap.put(CLOUD_KILLER, GameEvent.SHOOT_RED);
 		keyMap.put(DOUBLE_JUMP, GameEvent.DOUBLE_JUMP);
 		keyMap.put(RESET, GameEvent.RESET);
 		

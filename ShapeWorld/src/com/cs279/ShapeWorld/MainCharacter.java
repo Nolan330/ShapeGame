@@ -7,6 +7,7 @@ import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 
 import com.cs279.ShapeWorld.Controller.GameEvent;
+import com.cs279.ShapeWorld.EnemySprite.EnemyType;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 
 public class MainCharacter extends Sprite {
@@ -59,10 +60,13 @@ public class MainCharacter extends Sprite {
 			ge.getLevel().setGameOver();
 			return;
 		}
+		if(ge.getLevel().isCompleted()) {
+			ge.getLevel().reset(true);
+		}
 		GameEvent last = ge.getController().getLastEvent() == null ? GameEvent.NONE
 				: ge.getController().getLastEvent();
-		if(last == GameEvent.SHOOT) {
-			explodeClosest();
+		if(last == GameEvent.SHOOT_RED || last == GameEvent.SHOOT_BLUE)  {
+			explodeClosest(last);
 			return;
 		}
 		if(!checkGround()) {
@@ -154,9 +158,10 @@ public class MainCharacter extends Sprite {
 		for (Sprite s : ge.getLevel().getAllSprites()) {
 			if (s.collision(this)) {
 				if(s instanceof Checkpoint) {
-					ge.level.setAlertText("Level over!!!");
+					ge.getLevel().setCompleted(true);
+					s.DEAD = true;
+					return false;
 				}
-				
 				if(s.getXCoord() - 5 > trueX && le == GameEvent.RIGHT)
 					return true;
 				else if(s.getXCoord() < trueX && le == GameEvent.LEFT)
@@ -188,7 +193,7 @@ public class MainCharacter extends Sprite {
 		return null;
 	}
 	
-	public void explodeClosest() {
+	public void explodeClosest(GameEvent g) {
 		Sprite closest = null;
 		double closeness = Integer.MAX_VALUE;
 		for(Sprite s:ge.getLevel().getAllSprites()) {
@@ -197,7 +202,12 @@ public class MainCharacter extends Sprite {
 						&& ge.getStageCamera().isVisible(s)
 						&& !s.DEAD
 						&& s instanceof EnemySprite) {
-				closest = s;
+				System.out.println("hi");
+				if(GameEvent.SHOOT_BLUE == g && ((EnemySprite) s).getEnemyType() == EnemyType.BLUE) {
+					closest = s;
+				} else if(g == GameEvent.SHOOT_RED && ((EnemySprite) s).getEnemyType() != EnemyType.BLUE) {
+					closest = s;
+				}
 				closeness = Math.abs(s.getXCoord() - trueX);
 			}	
 		}

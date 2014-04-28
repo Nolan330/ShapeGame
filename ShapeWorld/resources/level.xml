@@ -8,36 +8,42 @@
 		<trueX>600</trueX>
 		<trueY>280</trueY>
 		<range>100</range>
+		<speed>2</speed>
 		<imageLocation>/enemy_red.png</imageLocation>
 	</enemy>
 	<enemy>
 		<trueX>800</trueX>
 		<trueY>280</trueY>
 		<range>140</range>
+		<speed>2</speed>
 		<imageLocation>/enemy_red.png</imageLocation>
 	</enemy>
 	<enemy>
 		<trueX>1250</trueX>
 		<trueY>270</trueY>
 		<range>75</range>
+		<speed>2</speed>
 		<imageLocation>/enemy_red.png</imageLocation>
 	</enemy>
 	<enemy>
 		<trueX>2000</trueX>
 		<trueY>280</trueY>
 		<range>200</range>
+		<speed>2</speed>
 		<imageLocation>/enemy_red.png</imageLocation>
 	</enemy>
 		<enemy>
 		<trueX>1500</trueX>
 		<trueY>280</trueY>
 		<range>100</range>
+		<speed>2</speed>
 		<imageLocation>/enemy_red.png</imageLocation>
 	</enemy>
 	<enemy>
 		<trueX>2800</trueX>
 		<trueY>280</trueY>
 		<range>200</range>
+		<speed>2</speed>
 		<imageLocation>/enemy_red.png</imageLocation>
 	</enemy>
 	<backgroundsprite>
