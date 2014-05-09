@@ -63,21 +63,28 @@ public class GameControllerFragment extends Fragment
 			if (predictions.get(0).score > 1.0) {
 				String spell = predictions.get(0).name;
 				
-				if (spell.equals("B")) {
+				if (spell.equals("cloudkill")) {
 					Log.d(TAG, "CLOUDKILLER invoked");
 					Message cloudkillCtrl = Message.obtain(null, 
 							CommandControllerService.CLOUD_KILL);
 					        
 					gcActivity.sendControl(cloudkillCtrl);
 				}
-				else if (spell.equals("C")) {
+				else if (spell.equals("fireball")) {
+					Log.d(TAG, "FIREBALL invoked");
+					Message fireballCtrl = Message.obtain(null, 
+							CommandControllerService.FIREBALL);
+					        
+					gcActivity.sendControl(fireballCtrl);
+				}
+				else if (spell.equals("doublejump")) {
 					Log.d(TAG, "DOUBLEJUMP invoked");
 					Message doublejumpCtrl = Message.obtain(null, 
 							CommandControllerService.DOUBLE_JUMP);
 					        
 					gcActivity.sendControl(doublejumpCtrl);
 				}
-				else if (spell.equals("D")) {
+				else if (spell.equals("reset")) {
 					Log.d(TAG, "RESET invoked");
 					Message resetCtrl = Message.obtain(null, 
 							CommandControllerService.RESET);

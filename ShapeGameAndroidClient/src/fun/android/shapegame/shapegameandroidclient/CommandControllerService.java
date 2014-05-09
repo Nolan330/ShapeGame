@@ -37,6 +37,7 @@ public class CommandControllerService extends Service {
 	static final int CONNECT = 4;
 	static final int DISCONNECT = 5;
 	static final int CLOUD_KILL = 10;
+	static final int FIREBALL = 12;
 	static final int DOUBLE_JUMP = 15;
 	static final int RESET = 20;
 	
@@ -155,6 +156,13 @@ public class CommandControllerService extends Service {
             	if(ctrlRef != null) {
             		Log.d(ctrlRef.get().TAG, "CLOUD_KILL INVOKED");
             		ctrlRef.get().sendControl(CLOUD_KILL);
+            	}
+            	break;
+            	
+            case FIREBALL:
+            	if(ctrlRef != null) {
+            		Log.d(ctrlRef.get().TAG, "FIREBALL INVOKED");
+            		ctrlRef.get().sendControl(FIREBALL);
             	}
             	break;
             	

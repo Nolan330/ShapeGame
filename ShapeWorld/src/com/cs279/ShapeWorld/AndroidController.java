@@ -22,6 +22,7 @@ public class AndroidController extends Controller implements Runnable {
 	static final int DIR_RIGHT = 2;
 	static final int DIR_DOWN = 3;
 	static final int CLOUD_KILLER = 10;
+	static final int FIREBALL = 12;
 	static final int DOUBLE_JUMP = 15;
 	static final int RESET = 20;
 	static final int CONNECTED = 100;
@@ -35,7 +36,8 @@ public class AndroidController extends Controller implements Runnable {
 		keyMap.put(DIR_LEFT, GameEvent.LEFT);
 		keyMap.put(DIR_UP, GameEvent.UP);
 		keyMap.put(DIR_DOWN, GameEvent.DOWN);
-		keyMap.put(CLOUD_KILLER, GameEvent.SHOOT_RED);
+		keyMap.put(CLOUD_KILLER, GameEvent.SHOOT_BLUE);
+		keyMap.put(FIREBALL, GameEvent.SHOOT_RED);
 		keyMap.put(DOUBLE_JUMP, GameEvent.DOUBLE_JUMP);
 		keyMap.put(RESET, GameEvent.RESET);
 		
@@ -115,6 +117,12 @@ public class AndroidController extends Controller implements Runnable {
 							  
 						   case CLOUD_KILLER:
 							   setLastEvent(keyMap.get(CLOUD_KILLER));
+							   Thread.sleep(50);
+							   setLastEvent(GameEvent.NONE);
+							   break;
+							   
+						   case FIREBALL:
+							   setLastEvent(keyMap.get(FIREBALL));
 							   Thread.sleep(50);
 							   setLastEvent(GameEvent.NONE);
 							   break;
